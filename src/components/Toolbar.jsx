@@ -1,4 +1,4 @@
-import { Printer, FileText, X, Github } from 'lucide-react';
+import { Printer, FileText, X, Github, Globe } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 
 export function Toolbar({ fileName, onClearContent }) {
@@ -52,6 +52,17 @@ export function Toolbar({ fileName, onClearContent }) {
           aria-label="View on GitHub"
         >
           <Github size={18} />
+        </a>
+
+        <a
+          href="https://amitdas.net"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="toolbar-btn website-link"
+          title="amitdas.net"
+          aria-label="Visit amitdas.net"
+        >
+          <Globe size={18} />
         </a>
 
         <ThemeToggle />

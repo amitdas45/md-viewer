@@ -50,6 +50,10 @@ npm run build
 4. Open multiple files as tabs
 5. Toggle between light and dark themes
 
+## Author
+
+**Amit Das** - [amitdas.net](https://amitdas.net)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
