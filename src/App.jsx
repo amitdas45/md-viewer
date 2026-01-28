@@ -1,18 +1,28 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Toolbar } from './components/Toolbar';
 import { DropZone } from './components/DropZone';
+import { TabBar } from './components/TabBar';
 import { MarkdownRenderer } from './components/MarkdownRenderer';
 import { TableOfContents } from './components/TableOfContents';
 import { useMarkdown } from './hooks/useMarkdown';
-import { useRecentFiles } from './hooks/useRecentFiles';
 import { useTheme } from './hooks/useTheme';
 import { updateMermaidTheme } from './utils/mermaid';
 import './App.css';
 
 function App() {
   const [tocCollapsed, setTocCollapsed] = useState(false);
-  const { html, headings, fileName, loadContent, clearContent, hasContent } = useMarkdown();
-  const { recentFiles, addFile, clearFiles, removeFile } = useRecentFiles();
+  const {
+    documents,
+    activeDocId,
+    html,
+    headings,
+    fileName,
+    hasContent,
+    addDocument,
+    removeDocument,
+    setActiveDocument,
+    clearContent
+  } = useMarkdown();
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -20,9 +30,8 @@ function App() {
   }, [theme]);
 
   const handleFileLoad = useCallback((content, name) => {
-    loadContent(content, name);
-    addFile(name);
-  }, [loadContent, addFile]);
+    addDocument(content, name);
+  }, [addDocument]);
 
   const handleClearContent = useCallback(() => {
     clearContent();
@@ -36,11 +45,18 @@ function App() {
     <div className="app">
       <Toolbar
         fileName={fileName}
-        recentFiles={recentFiles}
-        onClearRecent={clearFiles}
-        onRemoveRecent={removeFile}
         onClearContent={handleClearContent}
       />
+
+      {hasContent && (
+        <TabBar
+          documents={documents}
+          activeDocId={activeDocId}
+          onTabClick={setActiveDocument}
+          onTabClose={removeDocument}
+          onFileLoad={handleFileLoad}
+        />
+      )}
 
       <div className="main-container">
         {hasContent ? (
@@ -78,12 +94,6 @@ function App() {
           </div>
         )}
       </div>
-
-      {hasContent && (
-        <div className="floating-dropzone no-print">
-          <DropZone onFileLoad={handleFileLoad} fileName={fileName} />
-        </div>
-      )}
     </div>
   );
 }

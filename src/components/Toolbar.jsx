@@ -1,14 +1,7 @@
 import { Printer, FileText, X } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
-import { RecentFiles } from './RecentFiles';
 
-export function Toolbar({
-  fileName,
-  recentFiles,
-  onClearRecent,
-  onRemoveRecent,
-  onClearContent
-}) {
+export function Toolbar({ fileName, onClearContent }) {
   const handlePrint = () => {
     window.print();
   };
@@ -38,12 +31,6 @@ export function Toolbar({
       </div>
 
       <div className="toolbar-right">
-        <RecentFiles
-          recentFiles={recentFiles}
-          onClear={onClearRecent}
-          onRemove={onRemoveRecent}
-        />
-
         {fileName && (
           <button
             className="toolbar-btn print-btn"

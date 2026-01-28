@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { Upload, FileText } from 'lucide-react';
 
-export function DropZone({ onFileLoad, fileName }) {
+export function DropZone({ onFileLoad, fileName, compact = false }) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
@@ -89,7 +89,7 @@ export function DropZone({ onFileLoad, fileName }) {
 
   return (
     <div
-      className={`drop-zone ${isDragging ? 'dragging' : ''} ${fileName ? 'has-file' : ''}`}
+      className={`drop-zone ${isDragging ? 'dragging' : ''} ${fileName ? 'has-file' : ''} ${compact ? 'compact' : ''}`}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
@@ -109,21 +109,27 @@ export function DropZone({ onFileLoad, fileName }) {
         aria-hidden="true"
       />
 
-      <div className="drop-zone-content">
-        {fileName ? (
-          <>
-            <FileText size={24} />
-            <span className="file-name">{fileName}</span>
-            <span className="drop-hint">Drop another file or click to change</span>
-          </>
-        ) : (
-          <>
-            <Upload size={32} />
-            <span className="drop-text">Drop a Markdown file here</span>
-            <span className="drop-hint">or click to select</span>
-          </>
-        )}
-      </div>
+      {compact ? (
+        <div className="drop-zone-content">
+          <Upload size={16} />
+        </div>
+      ) : (
+        <div className="drop-zone-content">
+          {fileName ? (
+            <>
+              <FileText size={24} />
+              <span className="file-name">{fileName}</span>
+              <span className="drop-hint">Drop another file or click to change</span>
+            </>
+          ) : (
+            <>
+              <Upload size={32} />
+              <span className="drop-text">Drop a Markdown file here</span>
+              <span className="drop-hint">or click to select</span>
+            </>
+          )}
+        </div>
+      )}
 
       {error && <div className="drop-zone-error">{error}</div>}
     </div>
