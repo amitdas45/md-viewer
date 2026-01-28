@@ -1,0 +1,181 @@
+/* Theme CSS Variables */
+:root[data-theme="light"] {
+  /* Background colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f8fa;
+  --bg-tertiary: #f0f0f0;
+  --bg-hover: #e8e8e8;
+
+  /* Text colors */
+  --text-primary: #24292f;
+  --text-secondary: #57606a;
+  --text-muted: #8b949e;
+
+  /* Border colors */
+  --border-color: #d0d7de;
+  --border-color-strong: #8c959f;
+
+  /* Accent colors */
+  --accent-color: #0969da;
+  --accent-hover: #0550ae;
+
+  /* Code colors */
+  --code-bg: #f6f8fa;
+  --code-text: #24292f;
+
+  /* Syntax highlighting */
+  --syntax-keyword: #cf222e;
+  --syntax-string: #0a3069;
+  --syntax-comment: #6e7781;
+  --syntax-function: #8250df;
+  --syntax-number: #0550ae;
+  --syntax-operator: #24292f;
+  --syntax-class: #953800;
+
+  /* Scrollbar */
+  --scrollbar-bg: #f0f0f0;
+  --scrollbar-thumb: #c1c1c1;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* Drop zone */
+  --dropzone-border: #0969da;
+  --dropzone-bg: rgba(9, 105, 218, 0.05);
+}
+
+:root[data-theme="dark"] {
+  /* Background colors */
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #21262d;
+  --bg-hover: #30363d;
+
+  /* Text colors */
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #6e7681;
+
+  /* Border colors */
+  --border-color: #30363d;
+  --border-color-strong: #484f58;
+
+  /* Accent colors */
+  --accent-color: #58a6ff;
+  --accent-hover: #79c0ff;
+
+  /* Code colors */
+  --code-bg: #161b22;
+  --code-text: #e6edf3;
+
+  /* Syntax highlighting */
+  --syntax-keyword: #ff7b72;
+  --syntax-string: #a5d6ff;
+  --syntax-comment: #8b949e;
+  --syntax-function: #d2a8ff;
+  --syntax-number: #79c0ff;
+  --syntax-operator: #e6edf3;
+  --syntax-class: #ffa657;
+
+  /* Scrollbar */
+  --scrollbar-bg: #21262d;
+  --scrollbar-thumb: #484f58;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+
+  /* Drop zone */
+  --dropzone-border: #58a6ff;
+  --dropzone-bg: rgba(88, 166, 255, 0.1);
+}
+
+/* Global resets and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color-strong);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+/* Links */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+/* Print styles */
+@media print {
+  :root {
+    --bg-primary: white;
+    --text-primary: black;
+    --border-color: #ccc;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+}
