@@ -1,16 +1,55 @@
-# React + Vite
+# MD Viewer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A beautiful, feature-rich Markdown viewer built with React.
 
-Currently, two official plugins are available:
+**Live Demo:** [md.amitdas.net](https://md.amitdas.net)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- GitHub Flavored Markdown support
+- Mermaid diagrams
+- Syntax highlighting for code blocks
+- Math equations (KaTeX)
+- Dark/Light themes
+- Table of Contents with scroll spy
+- Multi-document tabs
+- Print support
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting Started
 
-## Expanding the ESLint configuration
+### Prerequisites
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/amitdas45/md-viewer.git
+cd md-viewer
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+## Usage
+
+1. Open the application
+2. Drop a Markdown file (.md, .markdown, .txt) onto the drop zone
+3. View your rendered Markdown with syntax highlighting, diagrams, and more
+4. Open multiple files as tabs
+5. Toggle between light and dark themes
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

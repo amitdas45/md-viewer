@@ -1,4 +1,4 @@
-import { Printer, FileText, X } from 'lucide-react';
+import { Printer, FileText, X, Github } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 
 export function Toolbar({ fileName, onClearContent }) {
@@ -42,6 +42,17 @@ export function Toolbar({ fileName, onClearContent }) {
             <span className="btn-text">Print</span>
           </button>
         )}
+
+        <a
+          href="https://github.com/amitdas45/md-viewer"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="toolbar-btn github-link"
+          title="View on GitHub"
+          aria-label="View on GitHub"
+        >
+          <Github size={18} />
+        </a>
 
         <ThemeToggle />
       </div>
