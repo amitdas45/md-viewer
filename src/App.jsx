@@ -32,8 +32,6 @@ function App() {
     setTocCollapsed(prev => !prev);
   }, []);
 
-  const sampleMarkdown = "# Hello World\n\nThis is **bold** and *italic* text.\n\n## Code\n\n```javascript\nconsole.log(\"Hello!\");\n```\n\n## Diagram\n\n```mermaid\ngraph LR\n    A[Start] --> B[End]\n```\n\nInline math: $E = mc^2$";
-
   return (
     <div className="app">
       <Toolbar
@@ -76,11 +74,6 @@ function App() {
               </ul>
 
               <DropZone onFileLoad={handleFileLoad} fileName={fileName} />
-
-              <div className="sample-hint">
-                <p>Try it with a sample Markdown file containing:</p>
-                <pre className="sample-code">{sampleMarkdown}</pre>
-              </div>
             </div>
           </div>
         )}
