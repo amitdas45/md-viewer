@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Toolbar } from './components/Toolbar';
 import { DropZone } from './components/DropZone';
 import { TabBar } from './components/TabBar';
@@ -94,6 +95,7 @@ function App() {
           </div>
         )}
       </div>
+      <Analytics />
     </div>
   );
 }
