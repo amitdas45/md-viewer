@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { ZoomIn, ZoomOut, RotateCcw, X } from 'lucide-react';
+import { ZoomIn, ZoomOut, RotateCcw, X, Download } from 'lucide-react';
 import { useDiagramZoom } from '../hooks/useDiagramZoom';
 
 const FIT_PADDING = 40; // px padding on each side when fitting to viewport
@@ -85,6 +85,70 @@ export function DiagramModal({ svgHTML, onClose }) {
     }, 200);
   }, [onClose]);
 
+  const handleDownload = useCallback(() => {
+    if (!svgHTML) return;
+
+    // Parse the SVG to read its natural dimensions
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgHTML, 'image/svg+xml');
+    const svgEl = doc.querySelector('svg');
+    if (!svgEl) return;
+
+    // Get SVG natural dimensions from attributes or viewBox
+    const bbox = svgEl.getAttribute('viewBox')?.split(/[\s,]+/).map(Number);
+    const natW = parseFloat(svgEl.getAttribute('width')) || bbox?.[2] || 800;
+    const natH = parseFloat(svgEl.getAttribute('height')) || bbox?.[3] || 600;
+
+    // Scale up to match on-screen quality: fit to viewport × devicePixelRatio
+    const dpr = window.devicePixelRatio || 1;
+    let renderScale = dpr * 2; // fallback
+    const viewport = viewportRef.current;
+    if (viewport) {
+      const vw = viewport.clientWidth - FIT_PADDING * 2;
+      const vh = viewport.clientHeight - FIT_PADDING * 2;
+      const fitScale = Math.min(vw / natW, vh / natH);
+      renderScale = Math.max(fitScale * dpr, renderScale);
+    }
+
+    const canvasW = Math.round(natW * renderScale);
+    const canvasH = Math.round(natH * renderScale);
+    const canvas = document.createElement('canvas');
+    canvas.width = canvasW;
+    canvas.height = canvasH;
+    const ctx = canvas.getContext('2d');
+
+    // Fill white background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvasW, canvasH);
+
+    // Ensure SVG has xmlns for serialization
+    if (!svgEl.getAttribute('xmlns')) {
+      svgEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    }
+    // Set explicit dimensions so the image renders at the canvas size
+    svgEl.setAttribute('width', String(canvasW));
+    svgEl.setAttribute('height', String(canvasH));
+
+    const serialized = new XMLSerializer().serializeToString(svgEl);
+    // Use a data URI instead of blob URL to avoid canvas tainting
+    const dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(serialized);
+
+    const img = new Image();
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, canvasW, canvasH);
+
+      canvas.toBlob((pngBlob) => {
+        if (!pngBlob) return;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(pngBlob);
+        a.download = 'mermaid-diagram.png';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }, 'image/png');
+    };
+    img.src = dataUrl;
+  }, [svgHTML]);
+
   // Keyboard shortcuts
   useEffect(() => {
     if (!svgHTML) return;
@@ -161,6 +225,14 @@ export function DiagramModal({ svgHTML, onClose }) {
               title="Zoom in (+)"
             >
               <ZoomIn size={18} />
+            </button>
+            <button
+              className="diagram-modal-btn"
+              onClick={handleDownload}
+              aria-label="Download as PNG"
+              title="Download as PNG"
+            >
+              <Download size={18} />
             </button>
             <button
               className="diagram-modal-btn"
