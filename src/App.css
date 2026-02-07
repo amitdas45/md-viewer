@@ -1,6 +1,7 @@
 @import './styles/theme.css';
 @import './styles/markdown.css';
 @import './styles/prism-theme.css';
+@import './styles/diagram-modal.css';
 
 .app { min-height: 100vh; display: flex; flex-direction: column; }
 .toolbar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background-color: var(--bg-secondary); border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }

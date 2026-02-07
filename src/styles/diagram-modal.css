@@ -1,0 +1,158 @@
+/* Diagram expand button (injected into .mermaid-wrapper) */
+.diagram-expand-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  z-index: 2;
+}
+
+.mermaid-wrapper {
+  position: relative;
+}
+
+.mermaid-wrapper:hover .diagram-expand-btn,
+.mermaid-wrapper:focus-within .diagram-expand-btn {
+  opacity: 1;
+}
+
+.diagram-expand-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-color-strong);
+}
+
+/* Modal backdrop */
+.diagram-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.diagram-modal-backdrop.visible {
+  opacity: 1;
+}
+
+/* Modal container */
+.diagram-modal-container {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.diagram-modal-container.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Modal header */
+.diagram-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.diagram-modal-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.diagram-modal-zoom-level {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  min-width: 3.5rem;
+  text-align: center;
+  user-select: none;
+}
+
+.diagram-modal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.diagram-modal-btn:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-color-strong);
+}
+
+.diagram-modal-close {
+  margin-left: 0.75rem;
+}
+
+/* Modal viewport */
+.diagram-modal-viewport {
+  flex: 1;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  background-color: var(--bg-primary);
+}
+
+.diagram-modal-viewport.panning {
+  cursor: grabbing;
+}
+
+/* SVG container inside viewport */
+.diagram-modal-svg-container {
+  will-change: transform;
+  transform-origin: 0 0;
+  display: inline-block;
+}
+
+.diagram-modal-svg-container svg {
+  max-width: none;
+  display: block;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .diagram-modal-backdrop,
+  .diagram-modal-container,
+  .diagram-expand-btn {
+    transition: none;
+  }
+}
+
+/* Print: hide modal */
+@media print {
+  .diagram-modal-backdrop,
+  .diagram-modal-container {
+    display: none !important;
+  }
+}
