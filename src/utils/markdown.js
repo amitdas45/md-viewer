@@ -108,18 +108,28 @@ export function createMarkdownRenderer() {
 }
 
 // Process inline math ($...$) and block math ($$...$$)
+// Only processes math outside of <pre> and <code> blocks to avoid corrupting code content
 function processMath(html) {
-  // Process block math ($$...$$)
-  html = html.replace(/\$\$([\s\S]*?)\$\$/g, (match, tex) => {
-    return `<div class="math-block">${renderMath(tex.trim(), true)}</div>`;
-  });
+  // Split HTML into segments: code/pre blocks vs everything else
+  // We only apply math processing to non-code segments
+  const parts = html.split(/(<pre[\s>][\s\S]*?<\/pre>|<code[\s>][\s\S]*?<\/code>)/gi);
 
-  // Process inline math ($...$) - but not escaped \$ or $$
-  html = html.replace(/(?<!\$)\$(?!\$)((?:[^$\\]|\\.)+?)\$(?!\$)/g, (match, tex) => {
-    return `<span class="math-inline">${renderMath(tex.trim(), false)}</span>`;
-  });
+  for (let i = 0; i < parts.length; i++) {
+    // Odd indices are the captured code/pre blocks — skip them
+    if (i % 2 === 1) continue;
 
-  return html;
+    // Process block math ($$...$$)
+    parts[i] = parts[i].replace(/\$\$([\s\S]*?)\$\$/g, (match, tex) => {
+      return `<div class="math-block">${renderMath(tex.trim(), true)}</div>`;
+    });
+
+    // Process inline math ($...$) - but not escaped \$ or $$
+    parts[i] = parts[i].replace(/(?<!\$)\$(?!\$)((?:[^$\\]|\\.)+?)\$(?!\$)/g, (match, tex) => {
+      return `<span class="math-inline">${renderMath(tex.trim(), false)}</span>`;
+    });
+  }
+
+  return parts.join('');
 }
 
 // Extract headings from markdown for TOC
