@@ -184,6 +184,16 @@ export function DiagramModal({ svgHTML, onClose }) {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [svgHTML, handleClose, zoomIn, zoomOut, resetZoom]);
 
+  // Attach wheel listener with { passive: false } so preventDefault() works.
+  // React 19 registers onWheel as a passive listener, which silently ignores
+  // preventDefault and lets the browser's default scroll compete with our zoom.
+  useEffect(() => {
+    const vp = viewportRef.current;
+    if (!vp || !svgHTML) return;
+    vp.addEventListener('wheel', handleWheel, { passive: false });
+    return () => vp.removeEventListener('wheel', handleWheel);
+  }, [svgHTML, handleWheel]);
+
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
@@ -255,7 +265,6 @@ export function DiagramModal({ svgHTML, onClose }) {
         <div
           ref={viewportRef}
           className={`diagram-modal-viewport${isPanning ? ' panning' : ''}`}
-          onWheel={handleWheel}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
